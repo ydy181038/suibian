@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#0e1b15">
+  <meta name="description" content="VoltPark 电动车智能停放系统 — 实时车位、预约充电、无感结算。">
+  <title>VoltPark · 电动车智能停放</title>
+  <link rel="icon" href="/static/favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="/static/styles.css">
+</head>
+<body>
+  <div class="boot" id="boot-screen">
+    <div class="boot-mark">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <path d="M8 6.5h16v19H8z" stroke="currentColor" stroke-width="2"/>
+        <path d="M17.6 9.5 12 18h4l-1.6 5.2L20 15.6h-4l1.6-6.1Z" fill="currentColor"/>
+      </svg>
+    </div>
+    <div class="boot-name">VOLT<span>PARK</span></div>
+    <div class="boot-loader"><i></i></div>
+    <div class="boot-caption">正在唤醒智能停车场</div>
+  </div>
+
+  <!-- ─────────────────────────────  AUTH  ───────────────────────────── -->
+  <div class="auth-view" id="auth-view" hidden>
+    <section class="auth-visual">
+      <div class="auth-glow auth-glow--one"></div>
+      <div class="auth-glow auth-glow--two"></div>
+      <header class="auth-top">
+        <a class="brand brand--light" href="/" aria-label="VoltPark 首页">
+          <span class="brand-mark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M8 6.5h16v19H8z" stroke="currentColor" stroke-width="2"/>
+              <path d="M17.6 9.5 12 18h4l-1.6 5.2L20 15.6h-4l1.6-6.1Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span class="brand-type">VOLT<span>PARK</span></span>
+        </a>
+        <span class="auth-index">SMART PARKING <b>/ 01</b></span>
+      </header>
+
+      <div class="auth-copy">
+        <div class="auth-kicker"><span class="kicker-line"></span>ELECTRIC MOBILITY, CONSIDERED</div>
+        <h1>停好，<br><em>再出发。</em></h1>
+        <p>为电动车预留一个更聪明的位置。<br>实时车位、预约充电、无感结算，一站完成。</p>
+      </div>
+
+      <div class="auth-art" aria-hidden="true">
+        <div class="parking-orbit">
+          <div class="orbit-ring orbit-ring--outer"></div>
+          <div class="orbit-ring orbit-ring--inner"></div>
+          <div class="orbit-crosshair orbit-crosshair--h"></div>
+          <div class="orbit-crosshair orbit-crosshair--v"></div>
+          <div class="orbit-platform">
+            <div class="platform-grid"></div>
+            <div class="slot-bracket slot-bracket--tl"></div>
+            <div class="slot-bracket slot-bracket--tr"></div>
+            <div class="slot-bracket slot-bracket--bl"></div>
+            <div class="slot-bracket slot-bracket--br"></div>
+            <div class="ev-top">
+              <div class="ev-top__roof"></div>
+              <div class="ev-top__body">
+                <span class="ev-light ev-light--l"></span>
+                <span class="ev-light ev-light--r"></span>
+                <span class="ev-badge">EV</span>
+              </div>
+            </div>
+            <div class="charge-beam"></div>
+            <span class="platform-id">A · 03</span>
+          </div>
+
+          <div class="orbit-float orbit-float--charging">
+            <span class="float-pulse"></span>
+            <div>
+              <small>LIVE / A-03</small>
+              <strong>充电中 · 86%</strong>
+            </div>
+            <svg viewBox="0 0 24 24" fill="none"><path d="m13 2-8 12h6l-1 8 8-12h-6l1-8Z" fill="currentColor"/></svg>
+          </div>
+          <div class="orbit-float orbit-float--free">
+            <strong class="float-number">12</strong>
+            <div>
+              <small>AVAILABLE NOW</small>
+              <span>个空闲车位</span>
+            </div>
+          </div>
+          <div class="orbit-coords">31.2304° N&nbsp;&nbsp;/&nbsp;&nbsp;121.4737° E</div>
+        </div>
+      </div>
+
+      <footer class="auth-visual-footer">
+        <div class="system-live">
+          <span class="live-pulse"></span>
+          <div><strong>系统运行中</strong><span>本地数据 · 实时同步</span></div>
+        </div>
+        <div class="auth-coordinates">VOLTPARK © 2026<br>SHANGHAI · CN</div>
+      </footer>
+    </section>
+
+    <section class="auth-panel">
+      <div class="auth-panel-top">
+        <span id="auth-date">LOCAL TIME</span>
+        <span class="mono-tag">LOCAL / SQLITE</span>
+      </div>
+
+      <div class="auth-panel-inner">
+        <div class="mobile-auth-brand">
+          <span class="brand-mark brand-mark--dark">
+            <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+              <path d="M8 6.5h16v19H8z" stroke="currentColor" stroke-width="2"/>
+              <path d="M17.6 9.5 12 18h4l-1.6 5.2L20 15.6h-4l1.6-6.1Z" fill="currentColor"/>
+            </svg>
+          </span>
+          <span>VOLT<span>PARK</span></span>
+        </div>
+
+        <div class="auth-heading">
+          <span class="eyebrow">WELCOME BACK</span>
+          <h2 id="auth-title">欢迎回来。</h2>
+          <p id="auth-subtitle">登录你的 VoltPark 账户，查看今天的车位。</p>
+        </div>
+
+        <div class="auth-tabs" id="auth-tabs" role="tablist" aria-label="账户操作">
+          <button type="button" class="auth-tab is-active" data-auth-tab="login" role="tab" aria-selected="true">登录</button>
+          <button type="button" class="auth-tab" data-auth-tab="register" role="tab" aria-selected="false">创建账户</button>
+        </div>
+
+        <form id="auth-form" class="auth-form" novalidate>
+          <div class="field register-field" id="name-field" hidden>
+            <label for="auth-name">你的称呼</label>
+            <div class="input-shell">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M20 21a8 8 0 0 0-16 0M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10Z" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <input id="auth-name" name="name" type="text" placeholder="例如：林晓" autocomplete="name" maxlength="20">
+            </div>
+          </div>
+
+          <div class="field">
+            <label for="auth-email">邮箱地址</label>
+            <div class="input-shell">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="m4 7 8 6 8-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              <input id="auth-email" name="email" type="email" placeholder="name@example.com" autocomplete="email" maxlength="120" required>
+            </div>
+          </div>
+
+          <div class="field">
+            <div class="label-row">
+              <label for="auth-password">密码</label>
+              <span class="register-only" id="password-hint" hidden>至少 8 位，含字母与数字</span>
+            </div>
+            <div class="input-shell">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="3" stroke="currentColor" stroke-width="1.7"/><path d="M8 10V7a4 4 0 0 1 8 0v3M12 14v3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+              <input id="auth-password" name="password" type="password" placeholder="至少 8 位" autocomplete="current-password" maxlength="72" required>
+              <button type="button" class="input-action" data-action="toggle-password" aria-label="显示密码">
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M2.5 12S6 5.8 12 5.8 21.5 12 21.5 12 18 18.2 12 18.2 2.5 12 2.5 12Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/></svg>
+              </button>
+            </div>
+          </div>
+
+          <div class="form-error" id="auth-error" role="alert" hidden></div>
+
+          <button type="submit" class="btn btn--auth" id="auth-submit">
+            <span>登录</span>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M5 12h14m-6-6 6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+        </form>
+
+        <div class="demo-card">
+          <div class="demo-icon">
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="m13 2-8 12h6l-1 8 8-12h-6l1-8Z" fill="currentColor"/></svg>
+          </div>
+          <div class="demo-copy">
+            <strong>快速体验演示账户</strong>
+            <span>demo@evpark.cn&nbsp;&nbsp;·&nbsp;&nbsp;Demo1234</span>
+          </div>
+          <button type="button" class="demo-fill" data-action="fill-demo">一键填入</button>
+        </div>
+
+        <p class="auth-legal">登录即表示你同意 <a href="#" tabindex="-1">服务条款</a> 与 <a href="#" tabindex="-1">隐私说明</a>。<br>账户数据仅加密保存在这台设备。</p>
+      </div>
+
+      <div class="auth-panel-bottom">
+        <span>需要帮助？</span>
+        <span class="mono-tag">support@voltpark.local</span>
+      </div>
+    </section>
+  </div>
+
+  <!-- ─────────────────────────────  APP  ───────────────────────────── -->
+  <div class="app-shell" id="app-shell" hidden>
+    <aside class="sidebar">
+      <a class="brand brand--light side-brand" href="#/dashboard" aria-label="VoltPark 工作台">
+        <span class="brand-mark">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <path d="M8 6.5h16v19H8z" stroke="currentColor" stroke-width="2"/>
+            <path d="M17.6 9.5 12 18h4l-1.6 5.2L20 15.6h-4l1.6-6.1Z" fill="currentColor"/>
+          </svg>
+        </span>
+        <span class="brand-type">VOLT<span>PARK</span></span>
+      </a>
+
+      <div class="side-context">
+        <span class="side-label">CURRENT LOCATION</span>
+        <div class="side-location">
+          <span class="location-pin">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M20 10c0 5.2-8 11-8 11S4 15.2 4 10a8 8 0 1 1 16 0Z" stroke="currentColor" stroke-width="1.7"/><circle cx="12" cy="10" r="2.6" stroke="currentColor" stroke-width="1.7"/></svg>
+          </span>
+          <div><strong>静安中心</strong><span>B1 · 智能停车层</span></div>
+          <span class="context-live" title="在线"></span>
+        </div>
+      </div>
+
+      <nav class="side-nav" id="side-nav" aria-label="主导航"></nav>
+
+      <div class="side-bottom">
+        <div class="side-energy">
+          <div class="side-energy-head">
+            <span><span class="live-pulse"></span> 今日充电</span>
+            <strong id="side-energy-value">—</strong>
+          </div>
+          <div class="side-energy-track"><i id="side-energy-bar"></i></div>
+          <p id="side-energy-caption">正在读取车辆状态…</p>
+        </div>
+        <button type="button" class="side-user" id="side-user" data-action="open-profile">
+          <span class="avatar avatar--sm" id="side-avatar">V</span>
+          <span class="side-user-copy">
+            <strong id="side-user-name">访客</strong>
+            <span id="side-user-email">—</span>
+          </span>
+          <svg class="side-user-arrow" viewBox="0 0 24 24" fill="none"><path d="m9 6 6 6-6 6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+    </aside>
+
+    <div class="app-body">
+      <header class="topbar">
+        <div class="topbar-left">
+          <a class="mobile-brand" href="#/dashboard" aria-label="VoltPark">
+            <span class="brand-mark brand-mark--dark">
+              <svg viewBox="0 0 32 32" fill="none"><path d="M8 6.5h16v19H8z" stroke="currentColor" stroke-width="2"/><path d="M17.6 9.5 12 18h4l-1.6 5.2L20 15.6h-4l1.6-6.1Z" fill="currentColor"/></svg>
+            </span>
+            <span>VOLT<span>PARK</span></span>
+          </a>
+          <div class="topbar-location">
+            <span class="live-pulse"></span>
+            <span>静安中心停车场</span>
+            <span class="topbar-slash">/</span>
+            <span>B1</span>
+          </div>
+        </div>
+        <div class="topbar-right">
+          <div class="topbar-time">
+            <span id="top-date">—</span>
+            <strong id="top-clock">--:--</strong>
+          </div>
+          <button type="button" class="icon-btn" data-action="notifications" aria-label="查看消息">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M18 8a6 6 0 1 0-12 0c0 7-3 7-3 9h18c0-2-3-2-3-9M10 21h4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <span class="notify-dot" id="notify-dot"></span>
+          </button>
+          <button type="button" class="top-avatar" id="top-avatar" data-action="open-profile" aria-label="账户菜单">V</button>
+        </div>
+      </header>
+
+      <main class="page" id="page" tabindex="-1"></main>
+    </div>
+  </div>
+
+  <div id="modal-root"></div>
+  <div class="toast-root" id="toast-root" role="status" aria-live="polite"></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>
